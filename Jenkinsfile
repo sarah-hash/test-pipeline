@@ -1,4 +1,9 @@
 pipeline {
+      environment { 
+        registry = "sarahkhh/devopsimage" 
+        registryCredential = 'dockerhub' 
+        dockerImage = '' 
+    }
     agent any
       stages {
         stage ('Checkout git') {
@@ -32,9 +37,11 @@ pipeline {
 
        
     }
-              stage ('Build image') {
-            steps {
-                sh 'docker build -t sarahkhh/test-pipeline . '
-            }
+              stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
         }
       }}
