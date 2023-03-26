@@ -1,19 +1,35 @@
 pipeline {
     agent any
-    stages{
-        stage('Build Maven'){
-            steps{
-            sh "mvn clean package -DskipTests"
-
+      stages {
+        stage ('Checkout git') {
+            steps {
+                git branch: 'main' ,
+               url:'https://github.com/sarah-hash/test-pipeline.git'
             }
         }
-        stage('Build docker image'){
-            steps{
-                script{
-                    sh 'sudo docker build -t sarahkhh/test-pipeline .'
-                }
+        stage ('Maven Clean') {
+            steps {
+                sh 'mvn clean'
             }
-        
+        }
+
+        stage ('Maven Compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage ('Maven Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+             stage ('Maven SonarQube') {
+            steps { 
+                withSonarQubeEnv('sq1') {
+                sh 'mvn sonar:sonar -Dsonar.login=b8f81399db39910c4a8481c9ba93188f7a5386cb'
+                                         }
+                     }
+
+       
     }
-}
-}
+      }}
