@@ -32,4 +32,9 @@ pipeline {
 
        
     }
+              stage ('Build image') {
+            steps {
+                sh 'docker build -t sarahkhh/test-pipeline . '
+            }
+        }
       }}
