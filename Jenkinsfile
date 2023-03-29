@@ -12,6 +12,7 @@ pipeline {
                url:'https://github.com/sarah-hash/test-pipeline.git'
             }
         }
+        
         stage ('Maven Clean') {
             steps {
                 sh 'mvn clean'
